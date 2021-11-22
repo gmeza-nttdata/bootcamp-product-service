@@ -1,13 +1,16 @@
 package com.nttdata.bootcamp.project1.products.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nttdata.bootcamp.project1.products.domain.dto.CreditType;
 import com.nttdata.bootcamp.project1.products.domain.dto.Type;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+@Slf4j
 @Data
 public class Credit {
     private static final int PERSONAL_MAX = 1;
@@ -21,6 +24,7 @@ public class Credit {
     private BigDecimal balance;
 
     private BigDecimal creditLine;
+    //@JsonFormat(pattern = "YYYY-MM-dd")
     private LocalDate expiration;
 
 
@@ -29,20 +33,22 @@ public class Credit {
         credit.setNumber(null);
 
         // Return null if user doesn't exist
-        if (user == null || credit.userId == null)
+        credit.userType = user.getType();
+        if (credit.userType == null)
             return null;
 
         if (user.getType().equals(Type.BUSINESS)) {
-            newCredit = credit;
             credit.userId = user.getId();
             credit.userType = Type.BUSINESS;
             credit.balance = BigDecimal.ZERO;
+            newCredit = credit;
         } else if (user.getType().equals(Type.PERSONAL)){
-            if (userCredits.size() > PERSONAL_MAX)
+            if (userCredits.size() >= PERSONAL_MAX)
                 return null;
             credit.userId = user.getId();
             credit.userType = Type.PERSONAL;
             credit.balance = BigDecimal.ZERO;
+            newCredit = credit;
         }
 
         // DEFAULTS:
@@ -56,8 +62,8 @@ public class Credit {
         if (credit.creditLine == null)
             credit.creditLine = BigDecimal.valueOf(5000);
 
-        if (credit.expiration == null)
-            credit.expiration = LocalDate.now().plusDays(30);
+        //if (credit.expiration == null)
+        //    credit.expiration = LocalDate.now().plusDays(30);
 
         return newCredit;
     }

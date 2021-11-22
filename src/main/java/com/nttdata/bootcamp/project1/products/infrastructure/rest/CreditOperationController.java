@@ -34,12 +34,12 @@ public class CreditOperationController {
     }
 
     @GetMapping("balance/{number}")
-    Mono<Balance> getBalance(String number) {
+    Mono<Balance> getBalance(@PathVariable String number) {
         return creditOperations.getBalance(number);
     }
 
     @GetMapping("statements/{number}")
-    Flux<Statement> getStatements(String number) {
+    Flux<Statement> getStatements(@PathVariable String number) {
         return creditOperations.getStatements(number);
     }
 

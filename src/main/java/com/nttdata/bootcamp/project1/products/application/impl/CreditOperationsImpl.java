@@ -9,11 +9,13 @@ import com.nttdata.bootcamp.project1.products.domain.dto.OperationType;
 import com.nttdata.bootcamp.project1.products.domain.dto.ProductType;
 import com.nttdata.bootcamp.project1.products.infrastructure.service.CreditWebService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CreditOperationsImpl implements CreditOperations {
@@ -21,7 +23,7 @@ public class CreditOperationsImpl implements CreditOperations {
     @Autowired
     CreditWebService creditWebService;
 
-
+ 
     @Override
     public Mono<Statement> payCredit(OperationData operationData) {
         return creditWebService.get(operationData.getNumber())
@@ -64,10 +66,11 @@ public class CreditOperationsImpl implements CreditOperations {
                 .map(Balance::mapCreditToBalance);
     }
 
+
     @Override
     public Flux<Statement> getStatements(String number) {
         return statementRepository.queryAll()
-                .filter(statement ->
-                        statement.getProductType().equals(ProductType.CREDIT) && statement.getNumber().equals(number));
+                .filter(statement -> statement.getProductType().equals(ProductType.CREDIT) && statement.getNumber().equals(number)
+                    );
     }
 }
