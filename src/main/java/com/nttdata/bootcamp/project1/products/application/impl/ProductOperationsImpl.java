@@ -1,20 +1,19 @@
 package com.nttdata.bootcamp.project1.products.application.impl;
 
-import com.nttdata.bootcamp.project1.products.application.ProductOperations;
+import com.nttdata.bootcamp.project1.products.application.product.ProductOperations;
 import com.nttdata.bootcamp.project1.products.domain.entity.Account;
 import com.nttdata.bootcamp.project1.products.domain.entity.Credit;
-import com.nttdata.bootcamp.project1.products.domain.entity.User;
 import com.nttdata.bootcamp.project1.products.infrastructure.service.AccountWebService;
 import com.nttdata.bootcamp.project1.products.infrastructure.service.CreditWebService;
 import com.nttdata.bootcamp.project1.products.infrastructure.service.UserWebService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class ProductOperationsImpl implements ProductOperations {
 
@@ -28,22 +27,27 @@ public class ProductOperationsImpl implements ProductOperations {
     @Override
     public Mono<Account> createAccount(Account account) {
 
-        User user = userWebService.get(account.getUserId()).block();
+        return userWebService.get(account.getUserId())
+                .flatMap(user -> accountWebService.getAll()
+                        .filter(item -> item.getUserId().equals(user.getId()))
+                        .collectList()
+                        .flatMap(accounts -> accountWebService.create(Account.createAccount(account, user,accounts)))
+                        .onErrorReturn(new Account())
+                )
+                .onErrorReturn(new Account());
 
-        List<Account> userAccounts = accountWebService.getAll()
-                .collectList().block().stream()
-                .filter(item -> item.getUserId().equals(account.getUserId()))
-                .collect(Collectors.toList());
-
-        Account newAccount =  Account.createAccount(account, user, userAccounts);
-        if (newAccount!=null)
-            return accountWebService.create(newAccount);
-        return Mono.empty();
     }
 
     @Override
     public Mono<Credit> createCredit(Credit credit) {
-        return null;
+        return userWebService.get(credit.getUserId())
+                .flatMap(user -> creditWebService.getAll()
+                        .filter(item -> item.getUserId().equals(user.getId()))
+                        .collectList()
+                            .flatMap(credits -> creditWebService.create(Credit.createCredit(credit, user,credits)))
+                            .onErrorReturn(new Credit())
+                )
+                .onErrorReturn(new Credit());
     }
 
 }

@@ -1,5 +1,7 @@
 package com.nttdata.bootcamp.project1.products.domain.entity;
 
+import com.nttdata.bootcamp.project1.products.domain.dto.AccountType;
+import com.nttdata.bootcamp.project1.products.domain.dto.Type;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -7,25 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/*
-account.personal.n.current.max=1
-account.personal.n.savings.max=1
-account.personal.n.fixed-term.max=1
-
-account.business.n.current.max=2147483647
-account.business.n.savings.max=0
-account.business.n.fixed-term.max=0
-
-account.personal.n.holder.max=1
-account.personal.n.holder.min=1
-account.business.n.holder.max=2147483647
-account.business.n.holder.min=1
-
-account.personal.n.signer.max=1
-account.personal.n.signer.min=1
-account.business.n.signer.max=2147483647
-account.business.n.signer.min=0
-*/
 
 @Data
 public class Account {
@@ -62,15 +45,13 @@ public class Account {
 
 
     public static Account createAccount(Account account, User user, List<Account> userAccounts) {
-        // TODO: Logic
+        Account newAccount = null;
         account.setNumber(null);
         if (account.holders==null || account.holders.isEmpty()) {
             account.holders = new ArrayList<>(); account.holders.add(user.getId());
         } else if (!account.holders.contains(user.getId())) account.holders.add(user.getId());
 
         if (account.signers==null) account.signers = new ArrayList<>();
-
-        Account newAccount = null;
 
         if (!account.verify() || user.getType()==null) return null;
 
@@ -89,6 +70,7 @@ public class Account {
             case SAVINGS:
                 if (user.getType().equals(Type.BUSINESS) && (accountListByType.size() < BUSINESS_SAVINGS_MAX)) {
                     // Empty
+                    newAccount = null;
                 } else if (user.getType().equals(Type.PERSONAL) && (accountListByType.size() < PERSONAL_SAVINGS_MAX)) {
                     newAccount = account;
                 }
@@ -96,10 +78,19 @@ public class Account {
             case FIXED_TERM:
                 if (user.getType().equals(Type.BUSINESS) && (accountListByType.size() < BUSINESS_FIXED_TERM_MAX)) {
                     // Empty
+                    newAccount = null;
                 } else if (user.getType().equals(Type.PERSONAL) && (accountListByType.size() < PERSONAL_FIXED_TERM_MAX)) {
                     newAccount = account;
                 }
                 break;
+        }
+
+        if (newAccount!=null && newAccount.getAmount()==null) {
+            newAccount.setAmount(BigDecimal.ZERO);
+
+            if (newAccount.getCurrencyName()==null || newAccount.getCurrencyName().isEmpty())
+                newAccount.setCurrencyName("PEN");
+
         }
 
         return newAccount;
@@ -111,7 +102,7 @@ public class Account {
     }
 
     private boolean verify() {
-        return !(this.userId == null || this.type == null);
+        return !(this.userId == null || this.type == null );
     }
 
 }

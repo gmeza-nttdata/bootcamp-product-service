@@ -2,9 +2,7 @@ package com.nttdata.bootcamp.project1.products.infrastructure.service;
 
 import com.nttdata.bootcamp.project1.products.application.service.UserService;
 import com.nttdata.bootcamp.project1.products.domain.entity.User;
-import com.nttdata.bootcamp.project1.products.infrastructure.model.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -60,24 +58,5 @@ public class UserWebService implements UserService {
     }
 
 
-    private User mapClientDaoToClient(UserDao userDao) {
-        User user = new User();
-        user.setAddress(userDao.getAddress());
-        user.setType(userDao.getType());
-        user.setFullName(userDao.getFullName());
-        user.setBirthDate(userDao.getBirthDate());
-        user.setId(userDao.getId());
-        return user;
-    }
-
-    private UserDao mapClientToClientDao(User user) {
-        UserDao userDao = new UserDao();
-        userDao.setAddress(user.getAddress());
-        userDao.setType(user.getType());
-        userDao.setFullName(user.getFullName());
-        userDao.setBirthDate(user.getBirthDate());
-        userDao.setId(user.getId());
-        return userDao;
-    }
 
 }

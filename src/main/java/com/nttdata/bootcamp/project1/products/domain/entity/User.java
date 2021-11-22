@@ -1,5 +1,6 @@
 package com.nttdata.bootcamp.project1.products.domain.entity;
 
+import com.nttdata.bootcamp.project1.products.domain.dto.Type;
 import lombok.Data;
 
 import java.time.LocalDate;
