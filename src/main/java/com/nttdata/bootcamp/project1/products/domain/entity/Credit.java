@@ -1,6 +1,5 @@
 package com.nttdata.bootcamp.project1.products.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nttdata.bootcamp.project1.products.domain.dto.CreditType;
 import com.nttdata.bootcamp.project1.products.domain.dto.Type;
 import lombok.Data;
@@ -24,7 +23,6 @@ public class Credit {
     private BigDecimal balance;
 
     private BigDecimal creditLine;
-    //@JsonFormat(pattern = "YYYY-MM-dd")
     private LocalDate expiration;
 
 

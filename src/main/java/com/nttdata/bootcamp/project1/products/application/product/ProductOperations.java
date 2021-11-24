@@ -2,8 +2,6 @@ package com.nttdata.bootcamp.project1.products.application.product;
 
 import com.nttdata.bootcamp.project1.products.domain.entity.Account;
 import com.nttdata.bootcamp.project1.products.domain.entity.Credit;
-import com.nttdata.bootcamp.project1.products.domain.entity.User;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /*

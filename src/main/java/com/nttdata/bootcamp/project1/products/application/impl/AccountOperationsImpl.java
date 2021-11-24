@@ -7,7 +7,6 @@ import com.nttdata.bootcamp.project1.products.domain.dto.Balance;
 import com.nttdata.bootcamp.project1.products.domain.dto.OperationData;
 import com.nttdata.bootcamp.project1.products.domain.dto.OperationType;
 import com.nttdata.bootcamp.project1.products.domain.dto.ProductType;
-import com.nttdata.bootcamp.project1.products.domain.entity.Account;
 import com.nttdata.bootcamp.project1.products.infrastructure.service.AccountWebService;
 import com.nttdata.bootcamp.project1.products.infrastructure.service.UserWebService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +20,7 @@ import reactor.core.publisher.Mono;
 public class AccountOperationsImpl implements AccountOperations {
 
     private final StatementRepository statementRepository;
+
     @Autowired
     AccountWebService accountWebService;
     @Autowired

@@ -1,7 +1,6 @@
 package com.nttdata.bootcamp.project1.products.application;
 
 import com.nttdata.bootcamp.project1.products.domain.Statement;
-import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

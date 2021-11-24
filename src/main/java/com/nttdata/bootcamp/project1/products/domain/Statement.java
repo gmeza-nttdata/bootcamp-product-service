@@ -1,6 +1,5 @@
 package com.nttdata.bootcamp.project1.products.domain;
 
-import com.nttdata.bootcamp.project1.products.application.product.AccountOperations;
 import com.nttdata.bootcamp.project1.products.domain.dto.OperationType;
 import com.nttdata.bootcamp.project1.products.domain.dto.ProductType;
 import com.nttdata.bootcamp.project1.products.domain.entity.Account;
