@@ -14,40 +14,42 @@ import reactor.core.publisher.Mono;
 @Component
 public class AccountWebService implements AccountService {
 
+    @Autowired
+    private WebClient.Builder webClientBuilder;
     private static final String WEB_CLIENT_URL = "account.web.url";
-    private static final String URI = "/accounts";
-    private final WebClient webClient;
+    private final String URI;
+
 
     @Autowired
-    public AccountWebService(WebClient.Builder webClientBuilder, Environment env) {
-        this.webClient = webClientBuilder.baseUrl(env.getProperty(WEB_CLIENT_URL)).build();
+    public AccountWebService(Environment env) {
+        URI = env.getProperty(WEB_CLIENT_URL);
     }
 
 
     @Override
     public Flux<Account> getAll() {
-        return this.webClient.get().uri(URI)
+        return webClientBuilder.build().get().uri(URI)
                 .retrieve().bodyToFlux(Account.class);
     }
 
     @Override
     public Mono<Account> get(String id) {
-        return this.webClient.get()
-                .uri(uriBuilder -> uriBuilder.path(URI + "/{id}").build(id))
+        return webClientBuilder.build().get()
+                .uri(URI + "/{id}", id)
                 .retrieve().bodyToMono(Account.class);
     }
 
     @Override
     public Mono<Account> create(Account account) {
-        return this.webClient.post().uri(URI)
+        return webClientBuilder.build().post().uri(URI)
                 .body(Mono.justOrEmpty(account), Account.class)
                 .retrieve().bodyToMono(Account.class);
     }
 
     @Override
     public Mono<Account> update(String id, Account account) {
-        return this.webClient.put()
-                .uri(uriBuilder -> uriBuilder.path(URI + "/{id}").build(id))
+        return webClientBuilder.build().put()
+                .uri(URI + "/{id}", id)
                 .body(Mono.justOrEmpty(account), Account.class)
                 .retrieve().bodyToMono(Account.class);
     }
@@ -55,8 +57,8 @@ public class AccountWebService implements AccountService {
 
     @Override
     public Mono<Void> delete(String id) {
-        return this.webClient.delete()
-                .uri(uriBuilder -> uriBuilder.path(URI + "/{id}").build(id))
+        return webClientBuilder.build().delete()
+                .uri(URI + "/{id}", id)
                 .retrieve().bodyToMono(Void.class);
     }
 }

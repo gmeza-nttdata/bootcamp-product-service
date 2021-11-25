@@ -12,47 +12,48 @@ import reactor.core.publisher.Mono;
 @Component
 public class CreditWebService implements CreditService {
 
+    @Autowired
+    private WebClient.Builder webClientBuilder;
     private static final String WEB_CLIENT_URL = "credit.web.url";
-    private static final String URI = "/credits";
-    private final WebClient webClient;
+    private final String URI;
 
     @Autowired
-    public CreditWebService(WebClient.Builder webClientBuilder, Environment env) {
-        this.webClient = webClientBuilder.baseUrl(env.getProperty(WEB_CLIENT_URL)).build();
+    public CreditWebService(Environment env) {
+        URI = env.getProperty(WEB_CLIENT_URL);
     }
 
     @Override
     public Flux<Credit> getAll() {
-        return this.webClient.get().uri(URI)
+        return webClientBuilder.build().get().uri(URI)
                 .retrieve().bodyToFlux(Credit.class);
     }
 
     @Override
     public Mono<Credit> get(String id) {
-        return this.webClient.get()
-                .uri(uriBuilder -> uriBuilder.path(URI + "/{id}").build(id))
+        return webClientBuilder.build().get()
+                .uri(URI + "/{id}", id)
                 .retrieve().bodyToMono(Credit.class);
     }
 
     @Override
     public Mono<Credit> create(Credit credit) {
-        return this.webClient.post().uri(URI)
+        return webClientBuilder.build().post().uri(URI)
                 .body(Mono.justOrEmpty(credit), Credit.class)
                 .retrieve().bodyToMono(Credit.class);
     }
 
     @Override
     public Mono<Credit> update(String id, Credit credit) {
-        return this.webClient.put()
-                .uri(uriBuilder -> uriBuilder.path(URI + "/{id}").build(id))
+        return webClientBuilder.build().put()
+                .uri(URI + "/{id}", id)
                 .body(Mono.justOrEmpty(credit), Credit.class)
                 .retrieve().bodyToMono(Credit.class);
     }
 
     @Override
     public Mono<Void> delete(String id) {
-        return this.webClient.delete()
-                .uri(uriBuilder -> uriBuilder.path(URI + "/{id}").build(id))
+        return webClientBuilder.build().delete()
+                .uri(URI + "/{id}", id)
                 .retrieve().bodyToMono(Void.class);
     }
 }
