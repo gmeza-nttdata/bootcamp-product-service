@@ -1,6 +1,6 @@
 package com.nttdata.bootcamp.productservice.infrastructure.rest;
 
-import com.nttdata.bootcamp.productservice.application.product.ProductOperations;
+import com.nttdata.bootcamp.productservice.application.ProductOperations;
 import com.nttdata.bootcamp.productservice.domain.entity.Account;
 import com.nttdata.bootcamp.productservice.domain.entity.Credit;
 import lombok.RequiredArgsConstructor;

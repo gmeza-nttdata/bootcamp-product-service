@@ -1,4 +1,4 @@
-package com.nttdata.bootcamp.productservice.application.product;
+package com.nttdata.bootcamp.productservice.application;
 
 import com.nttdata.bootcamp.productservice.domain.entity.Credit;
 import com.nttdata.bootcamp.productservice.domain.entity.Account;

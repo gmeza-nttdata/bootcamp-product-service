@@ -37,7 +37,7 @@ public class Account {
     private Integer userId;
     private AccountType type;
     private String currencyName;
-    private BigDecimal amount;
+    private BigDecimal balance;
 
     // Only for Business:
     private List<Integer> holders;
@@ -85,8 +85,8 @@ public class Account {
                 break;
         }
 
-        if (newAccount!=null && newAccount.getAmount()==null) {
-            newAccount.setAmount(BigDecimal.ZERO);
+        if (newAccount!=null && newAccount.getBalance()==null) {
+            newAccount.setBalance(BigDecimal.ZERO);
 
             if (newAccount.getCurrencyName()==null || newAccount.getCurrencyName().isEmpty())
                 newAccount.setCurrencyName("PEN");

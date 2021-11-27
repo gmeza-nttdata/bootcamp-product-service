@@ -1,6 +1,6 @@
 package com.nttdata.bootcamp.productservice.application.impl;
 
-import com.nttdata.bootcamp.productservice.application.product.ProductOperations;
+import com.nttdata.bootcamp.productservice.application.ProductOperations;
 import com.nttdata.bootcamp.productservice.domain.entity.Credit;
 import com.nttdata.bootcamp.productservice.infrastructure.service.AccountWebService;
 import com.nttdata.bootcamp.productservice.infrastructure.service.CreditWebService;
