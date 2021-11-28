@@ -2,6 +2,8 @@ package com.nttdata.bootcamp.productservice.infrastructure.service;
 
 import com.nttdata.bootcamp.productservice.application.service.UserService;
 import com.nttdata.bootcamp.productservice.domain.entity.User;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -10,9 +12,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Component
 public class UserWebService implements UserService {
 
+    private static final String GET_USER_SERVICE = "getUserService";
     private final WebClient.Builder webClientBuilder;
     private final String URI;
 
@@ -29,6 +33,7 @@ public class UserWebService implements UserService {
                 .retrieve().bodyToFlux(User.class);
     }
 
+    @CircuitBreaker(name = GET_USER_SERVICE, fallbackMethod = "getUserServiceFallback")
     @Override
     public Mono<User> get(Integer id) {
         return webClientBuilder.build().get()
@@ -58,6 +63,11 @@ public class UserWebService implements UserService {
                 .retrieve().bodyToMono(Void.class);
     }
 
+
+    public Mono<User> getUserServiceFallback(Exception e) {
+        log.warn(e.toString());
+        return Mono.empty();
+    }
 
 
 }

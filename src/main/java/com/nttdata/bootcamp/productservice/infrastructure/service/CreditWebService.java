@@ -2,17 +2,21 @@ package com.nttdata.bootcamp.productservice.infrastructure.service;
 
 import com.nttdata.bootcamp.productservice.application.service.CreditService;
 import com.nttdata.bootcamp.productservice.domain.entity.Credit;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Component
 public class CreditWebService implements CreditService {
 
+    private static final String CREATE_CREDIT_SERVICE = "createCreditService";
+    private static final String GET_ALL_CREDIT_SERVICE = "getAllCreditService";
     private final WebClient.Builder webClientBuilder;
     private final String URI;
 
@@ -23,6 +27,7 @@ public class CreditWebService implements CreditService {
         this.URI = URI;
     }
 
+    @CircuitBreaker(name = GET_ALL_CREDIT_SERVICE, fallbackMethod = "getAllFallback")
     @Override
     public Flux<Credit> getAll() {
         return webClientBuilder.build().get().uri(URI)
@@ -36,6 +41,7 @@ public class CreditWebService implements CreditService {
                 .retrieve().bodyToMono(Credit.class);
     }
 
+    @CircuitBreaker(name = CREATE_CREDIT_SERVICE, fallbackMethod = "createFallback")
     @Override
     public Mono<Credit> create(Credit credit) {
         return webClientBuilder.build().post().uri(URI)
@@ -57,4 +63,15 @@ public class CreditWebService implements CreditService {
                 .uri(URI + "/{id}", id)
                 .retrieve().bodyToMono(Void.class);
     }
+
+    public Flux<Credit> getAllFallback(Exception e) {
+        log.warn(e.toString());
+        return Flux.empty();
+    }
+
+    public Mono<Credit> createFallback(Exception e) {
+        log.warn(e.toString());
+        return Mono.empty();
+    }
+
 }

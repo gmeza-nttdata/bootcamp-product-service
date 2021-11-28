@@ -6,26 +6,26 @@ import com.nttdata.bootcamp.productservice.infrastructure.service.AccountWebServ
 import com.nttdata.bootcamp.productservice.infrastructure.service.CreditWebService;
 import com.nttdata.bootcamp.productservice.infrastructure.service.UserWebService;
 import com.nttdata.bootcamp.productservice.domain.entity.Account;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 
-@Slf4j
 @Service
+@RequiredArgsConstructor
 public class ProductOperationsImpl implements ProductOperations {
 
-    @Autowired
-    AccountWebService accountWebService;
-    @Autowired
-    CreditWebService creditWebService;
-    @Autowired
-    UserWebService userWebService;
+    private final AccountWebService accountWebService;
+    private final CreditWebService creditWebService;
+    private final UserWebService userWebService;
 
     @Override
     public Mono<Account> createAccount(Account account) {
-
         return userWebService.get(account.getUserId())
                 .flatMap(user -> accountWebService.getAll()
                         .filter(item -> item.getUserId().equals(user.getId()))
@@ -34,7 +34,6 @@ public class ProductOperationsImpl implements ProductOperations {
                         .onErrorReturn(new Account())
                 )
                 .onErrorReturn(new Account());
-
     }
 
     @Override
