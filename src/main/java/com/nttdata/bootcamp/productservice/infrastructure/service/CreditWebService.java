@@ -22,7 +22,7 @@ public class CreditWebService implements CreditService {
 
     @Autowired
     public CreditWebService(WebClient.Builder webClientBuilder,
-                            @Value("${credit.web.url}") String URI) {
+                            @Value("${credit.web.url:http://credit-service/users}") String URI) {
         this.webClientBuilder = webClientBuilder;
         this.URI = URI;
     }
