@@ -1,5 +1,6 @@
 package com.nttdata.bootcamp.productservice.domain.entity;
 
+import com.nttdata.bootcamp.productservice.domain.dto.AccountContract;
 import com.nttdata.bootcamp.productservice.domain.dto.AccountType;
 import com.nttdata.bootcamp.productservice.domain.dto.Type;
 import lombok.Data;
@@ -38,6 +39,7 @@ public class Account {
     private AccountType type;
     private String currencyName;
     private BigDecimal balance;
+    private AccountContract contract;
 
     // Only for Business:
     private List<Integer> holders;
