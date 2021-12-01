@@ -1,6 +1,6 @@
 package com.nttdata.bootcamp.productservice.domain.entity;
 
-import com.nttdata.bootcamp.productservice.domain.dto.Type;
+import com.nttdata.bootcamp.productservice.domain.dto.UserType;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class User {
 
     private Integer id;
-    private Type type;
+    private UserType type;
     private String fullName;
     private String address;
     private LocalDate birthDate;

@@ -2,7 +2,7 @@ package com.nttdata.bootcamp.productservice.domain.entity;
 
 import com.nttdata.bootcamp.productservice.domain.dto.AccountContract;
 import com.nttdata.bootcamp.productservice.domain.dto.AccountType;
-import com.nttdata.bootcamp.productservice.domain.dto.Type;
+import com.nttdata.bootcamp.productservice.domain.dto.UserType;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -63,25 +63,25 @@ public class Account {
 
         switch (account.type) {
             case CURRENT:
-                if (user.getType().equals(Type.BUSINESS) && (accountListByType.size() < BUSINESS_CURRENT_MAX) && account.verifyBusinessCurrentAccount()) {
+                if (user.getType().equals(UserType.BUSINESS) && (accountListByType.size() < BUSINESS_CURRENT_MAX) && account.verifyBusinessCurrentAccount()) {
                     newAccount =  account;
-                } else if (user.getType().equals(Type.PERSONAL) && (accountListByType.size() < PERSONAL_CURRENT_MAX)) {
+                } else if (user.getType().equals(UserType.PERSONAL) && (accountListByType.size() < PERSONAL_CURRENT_MAX)) {
                     newAccount = account;
                 }
                 break;
             case SAVINGS:
-                if (user.getType().equals(Type.BUSINESS) && (accountListByType.size() < BUSINESS_SAVINGS_MAX)) {
+                if (user.getType().equals(UserType.BUSINESS) && (accountListByType.size() < BUSINESS_SAVINGS_MAX)) {
                     // Empty
                     newAccount = null;
-                } else if (user.getType().equals(Type.PERSONAL) && (accountListByType.size() < PERSONAL_SAVINGS_MAX)) {
+                } else if (user.getType().equals(UserType.PERSONAL) && (accountListByType.size() < PERSONAL_SAVINGS_MAX)) {
                     newAccount = account;
                 }
                 break;
             case FIXED_TERM:
-                if (user.getType().equals(Type.BUSINESS) && (accountListByType.size() < BUSINESS_FIXED_TERM_MAX)) {
+                if (user.getType().equals(UserType.BUSINESS) && (accountListByType.size() < BUSINESS_FIXED_TERM_MAX)) {
                     // Empty
                     newAccount = null;
-                } else if (user.getType().equals(Type.PERSONAL) && (accountListByType.size() < PERSONAL_FIXED_TERM_MAX)) {
+                } else if (user.getType().equals(UserType.PERSONAL) && (accountListByType.size() < PERSONAL_FIXED_TERM_MAX)) {
                     newAccount = account;
                 }
                 break;

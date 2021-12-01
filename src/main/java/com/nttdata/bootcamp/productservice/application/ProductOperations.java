@@ -1,5 +1,6 @@
 package com.nttdata.bootcamp.productservice.application;
 
+import com.nttdata.bootcamp.productservice.domain.dto.BalanceDto;
 import com.nttdata.bootcamp.productservice.domain.entity.Credit;
 import com.nttdata.bootcamp.productservice.domain.entity.Account;
 import reactor.core.publisher.Mono;
@@ -18,5 +19,8 @@ public interface ProductOperations {
 
     Mono<Account> createAccount(Account account);
     Mono<Credit> createCredit(Credit credit);
+
+    Mono<BalanceDto> getCreditBalance(String number);
+    Mono<BalanceDto> getAccountBalance(String number);
 
 }

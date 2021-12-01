@@ -1,5 +1,5 @@
 package com.nttdata.bootcamp.productservice.domain.dto;
 
-public enum Type {
+public enum UserType {
     PERSONAL, BUSINESS
 }

@@ -1,6 +1,7 @@
 package com.nttdata.bootcamp.productservice.application.impl;
 
 import com.nttdata.bootcamp.productservice.application.ProductOperations;
+import com.nttdata.bootcamp.productservice.domain.dto.BalanceDto;
 import com.nttdata.bootcamp.productservice.domain.entity.Credit;
 import com.nttdata.bootcamp.productservice.infrastructure.service.AccountWebService;
 import com.nttdata.bootcamp.productservice.infrastructure.service.CreditWebService;
@@ -46,6 +47,16 @@ public class ProductOperationsImpl implements ProductOperations {
                             .onErrorReturn(new Credit())
                 )
                 .onErrorReturn(new Credit());
+    }
+
+    @Override
+    public Mono<BalanceDto> getCreditBalance(String number) {
+        return creditWebService.get(number).map(BalanceDto::mapCreditToBalance);
+    }
+
+    @Override
+    public Mono<BalanceDto> getAccountBalance(String number) {
+        return accountWebService.get(number).map(BalanceDto::mapAccountToBalance);
     }
 
 }

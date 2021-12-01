@@ -1,7 +1,7 @@
 package com.nttdata.bootcamp.productservice.domain.entity;
 
 import com.nttdata.bootcamp.productservice.domain.dto.CreditType;
-import com.nttdata.bootcamp.productservice.domain.dto.Type;
+import com.nttdata.bootcamp.productservice.domain.dto.UserType;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +17,7 @@ public class Credit {
 
     private String number;
     private Integer userId;
-    private Type userType;
+    private UserType userType;
     private CreditType creditType;
     private String currencyName;
     private BigDecimal balance;
@@ -35,16 +35,16 @@ public class Credit {
         if (credit.userType == null)
             return null;
 
-        if (user.getType().equals(Type.BUSINESS)) {
+        if (user.getType().equals(UserType.BUSINESS)) {
             credit.userId = user.getId();
-            credit.userType = Type.BUSINESS;
+            credit.userType = UserType.BUSINESS;
             credit.balance = BigDecimal.ZERO;
             newCredit = credit;
-        } else if (user.getType().equals(Type.PERSONAL)){
+        } else if (user.getType().equals(UserType.PERSONAL)){
             if (userCredits.size() >= PERSONAL_MAX)
                 return null;
             credit.userId = user.getId();
-            credit.userType = Type.PERSONAL;
+            credit.userType = UserType.PERSONAL;
             credit.balance = BigDecimal.ZERO;
             newCredit = credit;
         }
