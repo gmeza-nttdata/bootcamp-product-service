@@ -1,6 +1,6 @@
 package com.nttdata.bootcamp.productservice.application.service;
 
-import com.nttdata.bootcamp.productservice.domain.entity.Account;
+import com.nttdata.bootcamp.productservice.domain.entity.account.Account;
 import org.springframework.stereotype.Component;
 
 /** This class implements CRUD methods.

@@ -1,7 +1,8 @@
 package com.nttdata.bootcamp.productservice.infrastructure.service;
 
 import com.nttdata.bootcamp.productservice.application.service.CreditService;
-import com.nttdata.bootcamp.productservice.domain.entity.Credit;
+import com.nttdata.bootcamp.productservice.domain.entity.credit.Credit;
+import com.nttdata.bootcamp.productservice.infrastructure.model.dao.CreditDao;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +74,6 @@ public class CreditWebService implements CreditService {
         log.warn(e.toString());
         return Mono.empty();
     }
+
 
 }

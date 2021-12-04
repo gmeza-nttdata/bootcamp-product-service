@@ -1,6 +1,5 @@
-package com.nttdata.bootcamp.productservice.domain.entity;
+package com.nttdata.bootcamp.productservice.domain.entity.user;
 
-import com.nttdata.bootcamp.productservice.domain.dto.UserType;
 import lombok.Data;
 
 import java.time.LocalDate;

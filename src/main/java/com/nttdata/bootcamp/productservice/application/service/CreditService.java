@@ -1,6 +1,6 @@
 package com.nttdata.bootcamp.productservice.application.service;
 
-import com.nttdata.bootcamp.productservice.domain.entity.Credit;
+import com.nttdata.bootcamp.productservice.domain.entity.credit.Credit;
 import org.springframework.stereotype.Component;
 
 @Component
