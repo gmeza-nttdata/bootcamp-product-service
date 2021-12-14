@@ -1,6 +1,7 @@
 package com.nttdata.bootcamp.productservice.infrastructure.rest;
 
 import com.nttdata.bootcamp.productservice.application.ProductOperations;
+import com.nttdata.bootcamp.productservice.domain.entity.Product;
 import com.nttdata.bootcamp.productservice.infrastructure.model.dto.AccountDto;
 import com.nttdata.bootcamp.productservice.infrastructure.model.dto.BalanceDto;
 import com.nttdata.bootcamp.productservice.domain.entity.account.Account;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Slf4j
@@ -20,6 +22,12 @@ import reactor.core.publisher.Mono;
 public class ProductController {
 
     private final ProductOperations operations;
+
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<ResponseEntity<Flux<Product>>> getProducts(@RequestParam(value = "userId", required = true) Integer userId) {
+        return Mono.just(ResponseEntity.ok(operations.getAvailableProducts(userId)));
+    }
+
 
     @PostMapping(value = "accounts", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<Account>> createAccount(@RequestBody AccountDto account) {

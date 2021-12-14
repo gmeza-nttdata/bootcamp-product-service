@@ -1,10 +1,12 @@
 package com.nttdata.bootcamp.productservice.application;
 
+import com.nttdata.bootcamp.productservice.domain.entity.Product;
 import com.nttdata.bootcamp.productservice.infrastructure.model.dto.AccountDto;
 import com.nttdata.bootcamp.productservice.infrastructure.model.dto.BalanceDto;
 import com.nttdata.bootcamp.productservice.domain.entity.credit.Credit;
 import com.nttdata.bootcamp.productservice.domain.entity.account.Account;
 import com.nttdata.bootcamp.productservice.infrastructure.model.dto.CreditDto;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /*
@@ -24,5 +26,7 @@ public interface ProductOperations {
 
     Mono<BalanceDto> getCreditBalance(String number);
     Mono<BalanceDto> getAccountBalance(String number);
+
+    Flux<Product> getAvailableProducts(Integer userId);
 
 }
